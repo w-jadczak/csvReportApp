@@ -1,7 +1,8 @@
-from AppScript import DataProcessor, DataframeLoader, ReportGenerator
+from AppScript import DataProcessor, DataframeLoader, ReportGenerator, InputCsvValidator
 
 def main():
-    loader = DataframeLoader('products.csv')
+    validator = InputCsvValidator()
+    loader = DataframeLoader('products.csv', validator)
     df = loader.load_data()
 
     dp = DataProcessor(df)
