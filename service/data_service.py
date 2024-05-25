@@ -1,42 +1,12 @@
 import pandas as pd
-import os
-
-class InputCsvValidator:
-    def __init__(self):
-        pass
-
-    def validate_data(self, df: pd.DataFrame):
-        self._validate_not_empty(df)
-        self._validate_columns(df)
-
-    def validate_path(self, path):
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"Provided file path: {path} does not exist.")
-
-    def _validate_not_empty(self, df: pd.DataFrame):
-        if df.empty:
-            raise ValueError("Provided CSV file cannot be empty.")
-
-    def _validate_columns(self, df: pd.DataFrame):
-        required_columns = {"ID", "Name", "Category", "Price", "Quantity"}
-        if not required_columns.issubset(df.columns):
-            missing_columns = required_columns - set(df.columns)
-            raise ValueError(f"Provided CSV file is missing following columns: {', '.join(missing_columns)}")
 
 class DataframeLoader:
-    def __init__(self, path, validator: InputCsvValidator):
+    def __init__(self, path):
         self.path = path
-        self.validator = validator
 
     def load_data(self):
-        try:
-            self.validator.validate_path(self.path)
-            df = pd.read_csv(self.path)
-            self.validator.validate_data(df)
-            return df
-        except (FileNotFoundError, ValueError) as e:
-            print(f"Validation error: {e}")
-            return None
+        df = pd.read_csv(self.path)
+        return df
 
 class DataProcessor:
     def __init__(self, df: pd.DataFrame):
@@ -91,7 +61,3 @@ class ReportGenerator:
         most_expensive_products = pd.DataFrame(most_expensive_data)
 
         return most_expensive_products
-
-
-
-
