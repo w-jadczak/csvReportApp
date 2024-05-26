@@ -37,7 +37,7 @@ class ReportGenerator:
         with open(output_csv_file_path, mode='w', newline='') as file:
             general_df.to_csv(file, index=False)
             file.write('\n')
-            specific_df.to_csv(file, index=False, header=False)
+            specific_df.to_csv(file, index=False, header=True)
 
     def _generate_general_dataframes(self):
         general_data = {
